@@ -2,6 +2,7 @@ bin_PROGRAMS=statsd-proxy
 statsd_proxy_SOURCES=src/buf.c \
 					 src/cfg.c \
 					 src/config.c \
+           src/preagg.c \
 					 src/ctx.c \
 					 src/event.c \
 					 src/ketama.c \

@@ -126,6 +126,7 @@ int relay_buf(struct ctx *ctx) {
     if (ctx->buf->len == 0) return PROXY_OK;
 
     struct parser_result result;
+    struct parser_result agg_result;
     int n, n_parsed = 0;
     char *data = ctx->buf->data;
     size_t len = ctx->buf->len;
@@ -134,10 +135,14 @@ int relay_buf(struct ctx *ctx) {
     struct buf *sbuf = NULL;
 
     while ((n = parse(&result, data, len)) > 0) {
+
+        //TODO: add pre agg
+
         node = ketama_node_iget(ctx->ring, result.key, result.len);
 
         sbuf = ctx->sbufs[node->idx];
         addr = ctx->addrs[node->idx];
+
 
         if (sbuf->len > 0 && buf_putc(sbuf, '\n') != BUF_OK)
             return PROXY_ENOMEM;
